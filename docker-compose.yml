@@ -40,7 +40,7 @@ services:
       - ./data/datanode2:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
-
+# TODO: Update to spark 2
   spark-master:
     image: earthquakesan/hadoop-spark-master:1.0.0
     hostname: spark-master
