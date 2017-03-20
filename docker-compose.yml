@@ -1,4 +1,4 @@
-version: '2' 
+version: '2'
 services:
   namenode:
     image: bde2020/hadoop-namenode:1.0.0
@@ -34,7 +34,7 @@ services:
     hostname: datanode2
     container_name: datanode2
     domainname: hadoop
-    networks: 
+    networks:
       - hadoop
     volumes:
       - ./data/datanode2:/hadoop/dfs/data
@@ -64,7 +64,7 @@ services:
     image: earthquakesan/hadoop-spark-worker:1.0.0
     hostname: spark-worker
     domainname: hadoop
-    networks: 
+    networks:
       - hadoop
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
@@ -75,6 +75,20 @@ services:
       - SPARK_MASTER_URL=spark://spark-master:7077
     env_file:
       - ./hadoop.env
+
+  pyspark-notebook:
+    image: jupyter/pyspark-notebook
+    hostname: pyspark-notebook
+    container_name: pyspark-notebook
+    domainname: hadoop
+    networks:
+      - hadoop
+    environment:
+      - SPARK_NOTEBOOK_MASTER=yarn-client
+    env_file:
+      - ./hadoop.env
+    ports:
+      - "8888:8888"
 
   spark-notebook:
     image: earthquakesan/hadoop-spark-notebook:1.0.0
